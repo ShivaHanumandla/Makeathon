@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.infy.dao.EmployeeRepository;
 import com.infy.entity.Employee;
 
-@CrossOrigin(origins = "http://example.com")
 @RestController
 
 public class Controller {
@@ -35,8 +33,8 @@ public class Controller {
 	@Autowired
 	EmployeeRepository employeeRepository;
 
-	@GetMapping("/getEmployeebyName")
-	public List<Employee> getProduct(@RequestParam(value = "id", defaultValue = "") String id) {
+	@GetMapping("/getEmployeebyId")
+	public List<Employee> getProduct(@RequestParam(value = "id", defaultValue = "") Long id) {
 		try {
 			List<Employee> l = employeeRepository.findByid(id);
 			return l;
@@ -56,7 +54,7 @@ public class Controller {
 	}
 
 	@DeleteMapping("/deleteEmployee")
-	public ResponseEntity<Employee> deleteProduct(@RequestParam(value = "dao") Employee employee) {
+	public ResponseEntity<Employee> deleteProduct(@RequestBody Employee employee) {
 		try {
 			employeeRepository.delete(employee);
 			return new ResponseEntity<Employee>(employee, HttpStatus.OK);

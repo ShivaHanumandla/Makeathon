@@ -9,7 +9,7 @@ import com.infy.entity.Employee;
 
 @Repository
 public interface EmployeeRepository extends CrudRepository<Employee ,Long>{
-    List<Employee> findByid(String searchKey);
+    List<Employee> findByid(Long searchKey);
 
 
 //    @Autowired
