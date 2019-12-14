@@ -2,9 +2,11 @@ package com.infy.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import java.util.Set;
 
 @Entity
-public class Employee {
+public class BCMS {
 
 	@Id
 	// @GeneratedValue(strategy=GenerationType.AUTO)
@@ -26,6 +28,17 @@ public class Employee {
 	private String dataReviewedBy;
 	private String isWorkfromHomePossible;
 	private String eccAccomodationNeeded;
+
+	@OneToMany(mappedBy="id")
+	private Set<Resources> resources;
+
+	public Set<Resources> getResources() {
+		return resources;
+	}
+
+	public void setResources(Set<Resources> resources) {
+		this.resources = resources;
+	}
 
 	public String getUnit() {
 		return unit;
@@ -177,12 +190,12 @@ public class Employee {
 
 	private String transportRequirements;
 
-	protected Employee() {
+	protected BCMS() {
 	}
 
 	@Override
 	public String toString() {
-		return "Employee [id=" + id + ", unit=" + unit + ", typeOfProject=" + typeOfProject
+		return "BCMS [id=" + id + ", unit=" + unit + ", typeOfProject=" + typeOfProject
 				+ ", noofkeyresourcesneeded=" + noofkeyresourcesneeded + ", noOfPCsRequired=" + noOfPCsRequired
 				+ ", anyProjectspecificSoftwareRequirement=" + anyProjectspecificSoftwareRequirement
 				+ ", servicePriority=" + servicePriority + ", recoveryTimelines=" + recoveryTimelines
