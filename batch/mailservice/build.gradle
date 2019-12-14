@@ -1,0 +1,43 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.5.RELEASE")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+bootJar {
+    baseName = 'mailservice'
+    version =  '0.1.0'
+}
+
+repositories {
+    mavenCentral()
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-web")
+    compile "org.thymeleaf:thymeleaf:3.0.11.RELEASE"
+    compile "org.thymeleaf:thymeleaf-spring5:3.0.11.RELEASE"
+    // JPA Data (We are going to use Repositories, Entities, Hibernate, etc...)
+  //  compile 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    // Use MySQL Connector-J
+  //  compile 'mysql:mysql-connector-java'
+ //   compile 'org.springframework.boot:spring-boot-starter-hateoas'
+  //  compile 'org.springframework.boot:spring-boot-starter-websocket'
+    compile 'com.google.code.gson:gson'
+    compile 'org.springframework.boot:spring-boot-starter-mail:2.0.1.RELEASE'
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+
+}
