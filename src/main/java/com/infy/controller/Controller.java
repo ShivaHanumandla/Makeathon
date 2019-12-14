@@ -1,5 +1,6 @@
 package com.infy.controller;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -14,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.infy.dao.EmployeeRepository;
-import com.infy.entity.Employee;
+import com.infy.dao.BCMSRepository;
+import com.infy.dao.ResourceRepository;
+import com.infy.entity.BCMS;
+import com.infy.entity.Resources;
 
 @RestController
 
@@ -31,37 +34,70 @@ public class Controller {
 	}
 
 	@Autowired
-	EmployeeRepository employeeRepository;
+	BCMSRepository BCMSRepository;
+	@Autowired
+	ResourceRepository resourceRepository;
 
-	@GetMapping("/getEmployeebyId")
-	public List<Employee> getProduct(@RequestParam(value = "id", defaultValue = "") Long id) {
+	@GetMapping("/getProjectId")
+	public List<BCMS> getProject(@RequestParam(value = "id", defaultValue = "") Long id) {
 		try {
-			List<Employee> l = employeeRepository.findByid(id);
+			List<BCMS> l = BCMSRepository.findByid(id);
 			return l;
 		} catch (Exception e) {
 			return Collections.emptyList();
 		}
 	}
 
-	@PostMapping("/addEmployee")
-	public ResponseEntity<Employee> addProduct(@RequestBody Employee employee) {
+	@GetMapping("/getAllProjectId")
+	public List<Long> getProject() {
 		try {
-			employeeRepository.save(employee);
-			return new ResponseEntity<Employee>(employee, HttpStatus.OK);
+			List<Long> l = BCMSRepository.getAllIds();
+			return l;
 		} catch (Exception e) {
-			return new ResponseEntity<Employee>(employee, HttpStatus.INTERNAL_SERVER_ERROR);
+			return Collections.emptyList();
 		}
 	}
 
-	@DeleteMapping("/deleteEmployee")
-	public ResponseEntity<Employee> deleteProduct(@RequestBody Employee employee) {
+	@PostMapping("/addProject")
+	public ResponseEntity<BCMS> addProduct(@RequestBody BCMS bcms) {
 		try {
-			employeeRepository.delete(employee);
-			return new ResponseEntity<Employee>(employee, HttpStatus.OK);
+			BCMSRepository.save(bcms);
+			return new ResponseEntity<BCMS>(bcms, HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<Employee>(employee, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<BCMS>(bcms, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	@PostMapping("/addResource")
+	public ResponseEntity<List<Resources>> addProduct(@RequestBody List<Resources> resources) {
+		try {
+			resourceRepository.saveAll(resources);
+			return new ResponseEntity<List<Resources>>(resources, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<List<Resources>>(resources, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	@DeleteMapping("/deleteProject")
+	public ResponseEntity<BCMS> deleteProduct(@RequestBody BCMS bcms) {
+		try {
+			BCMSRepository.delete(bcms);
+			return new ResponseEntity<BCMS>(bcms, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<BCMS>(bcms, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
+	}
+	
+	@GetMapping("/findAll")
+	public ResponseEntity<List<BCMS>> findProduct() {
+		List<BCMS> bcms = null;
+		try {
+			bcms=(List<BCMS>) BCMSRepository.findAll();		
+			return new ResponseEntity<List<BCMS>>(bcms,HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<List<BCMS>>(bcms, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 
 }
